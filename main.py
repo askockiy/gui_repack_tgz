@@ -20,12 +20,12 @@ class App(tk.Tk):
         self.exit_button.pack(padx=15)
 
     def convert(self):
-        fin = filedialog.askopenfilename(title='Select *.tar.gz archive', filetypes=[('Archives', '*.tar.gz')])
+        fin = filedialog.askopenfilename(title='Select *.tar.gz archive', filetypes=[('name', '*.tar.gz')])
         if fin:
             with tempfile.TemporaryDirectory() as tempdir:
                 shutil.unpack_archive(fin, extract_dir=tempdir)
-
-                fout = filedialog.asksaveasfilename(title='Save as new_name archive', defaultextension="", filetypes=[('new_name', '')])
+                self.label.config(text=f'File unpacked to {tempdir}')
+                fout = filedialog.asksaveasfilename(title='Save as new_name archive', defaultextension="", filetypes=[('new_name', '*.tar.gz')])
                 if fout:
                     shutil.make_archive(fout, 'gztar', tempdir)
                     self.label.config(text=f'File saved as {fout}.tar.gz')
